@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutionException;
 
 public class CamaraActivity extends AppCompatActivity {
 
+
     private PreviewView previewView;
     private ImageCapture imageCapture;
     private ProcessCameraProvider cameraProvider;
