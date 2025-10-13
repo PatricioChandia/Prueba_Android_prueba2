@@ -31,6 +31,8 @@ public class CamaraActivity extends AppCompatActivity {
 
     private PreviewView previewView;
     private ImageCapture imageCapture;
+    private ProcessCameraProvider cameraProvider;
+    private CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA; // 👈 por defecto, cámara trasera
 
     private final ActivityResultLauncher<String> permisoCamaraLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
@@ -45,6 +47,7 @@ public class CamaraActivity extends AppCompatActivity {
 
         previewView = findViewById(R.id.previewView);
         Button btnTomarFoto = findViewById(R.id.btnTomarFoto);
+        Button btnCambiarCamara = findViewById(R.id.btnCambiarCamara); // 👈 nuevo botón en el layout
 
         // Pedir permiso de cámara si es necesario
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -55,6 +58,9 @@ public class CamaraActivity extends AppCompatActivity {
         }
 
         btnTomarFoto.setOnClickListener(v -> tomarFoto());
+
+        // 👇 Botón para cambiar entre cámara frontal y trasera
+        btnCambiarCamara.setOnClickListener(v -> cambiarCamara());
     }
 
     private void iniciarCamara() {
@@ -63,22 +69,39 @@ public class CamaraActivity extends AppCompatActivity {
 
         cameraProviderFuture.addListener(() -> {
             try {
-                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-
-                Preview preview = new Preview.Builder().build();
-                preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
-                imageCapture = new ImageCapture.Builder().build();
-
-                CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
-
-                cameraProvider.unbindAll();
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+                cameraProvider = cameraProviderFuture.get();
+                bindPreviewAndCapture();
 
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }, ContextCompat.getMainExecutor(this));
+    }
+
+    private void bindPreviewAndCapture() {
+        if (cameraProvider == null) return;
+
+        cameraProvider.unbindAll();
+
+        Preview preview = new Preview.Builder().build();
+        preview.setSurfaceProvider(previewView.getSurfaceProvider());
+
+        imageCapture = new ImageCapture.Builder().build();
+
+        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+    }
+
+    // 👇 Método para alternar entre cámaras
+    private void cambiarCamara() {
+        if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
+            cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA;
+            Toast.makeText(this, "Cambiando a cámara frontal", Toast.LENGTH_SHORT).show();
+        } else {
+            cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
+            Toast.makeText(this, "Cambiando a cámara trasera", Toast.LENGTH_SHORT).show();
+        }
+
+        bindPreviewAndCapture();
     }
 
     private void tomarFoto() {
