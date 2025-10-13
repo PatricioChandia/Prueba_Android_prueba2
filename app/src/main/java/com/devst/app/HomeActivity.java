@@ -9,11 +9,14 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+
 
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.EditText;
 
 
 import androidx.activity.EdgeToEdge;
@@ -70,6 +73,8 @@ public class HomeActivity extends AppCompatActivity {
         Button btnCompartir = findViewById(R.id.btnCompartir);
         btnLinterna = findViewById(R.id.btnLinterna);
         Button btnCamara = findViewById(R.id.btnCamara);
+        Button btnLlamar = findViewById(R.id.btnLlamar);
+        EditText txtNumeroTelefono = findViewById(R.id.txtNumeroTelefono);
 
         //Recibir datos del login
         emailUsuario = getIntent().getStringExtra("email_usuario");
@@ -150,6 +155,35 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, CamaraActivity.class);
             startActivity(intent);
         });
+
+
+        btnLlamar.setOnClickListener(v -> {
+            // Si el cuadro está oculto, lo mostramos
+            if (txtNumeroTelefono.getVisibility() == View.GONE) {
+                txtNumeroTelefono.setVisibility(View.VISIBLE);
+                txtNumeroTelefono.requestFocus();
+                btnLlamar.setText("Marcar número");
+            }
+            else { // Si ya está visible, intentamos hacer la llamada
+                String numero = txtNumeroTelefono.getText().toString().trim();
+
+                if (numero.isEmpty()) {
+                    Toast.makeText(this, "Ingrese un número telefónico", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String uriNumero = "tel:" + numero;
+                Intent intentLlamar = new Intent(Intent.ACTION_DIAL);
+                intentLlamar.setData(Uri.parse(uriNumero));
+                startActivity(intentLlamar);
+
+                // Volver a ocultar el cuadro después de abrir el marcador
+                txtNumeroTelefono.setVisibility(View.GONE);
+                btnLlamar.setText("Llamar");
+                txtNumeroTelefono.setText("");
+            }
+        });
+
     }
 
     private void alternarluz() {

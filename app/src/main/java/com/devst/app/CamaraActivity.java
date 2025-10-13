@@ -29,11 +29,10 @@ import java.util.concurrent.ExecutionException;
 
 public class CamaraActivity extends AppCompatActivity {
 
-
     private PreviewView previewView;
     private ImageCapture imageCapture;
     private ProcessCameraProvider cameraProvider;
-    private CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA; // 👈 por defecto, cámara trasera
+    private CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA; // por defecto, cámara trasera
 
     private final ActivityResultLauncher<String> permisoCamaraLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
@@ -48,7 +47,7 @@ public class CamaraActivity extends AppCompatActivity {
 
         previewView = findViewById(R.id.previewView);
         Button btnTomarFoto = findViewById(R.id.btnTomarFoto);
-        Button btnCambiarCamara = findViewById(R.id.btnCambiarCamara); // 👈 nuevo botón en el layout
+        Button btnCambiarCamara = findViewById(R.id.btnCambiarCamara); //nuevo botón en el layout
 
         // Pedir permiso de cámara si es necesario
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -60,7 +59,7 @@ public class CamaraActivity extends AppCompatActivity {
 
         btnTomarFoto.setOnClickListener(v -> tomarFoto());
 
-        // 👇 Botón para cambiar entre cámara frontal y trasera
+        //Botón para cambiar entre cámara frontal y trasera
         btnCambiarCamara.setOnClickListener(v -> cambiarCamara());
     }
 
@@ -92,7 +91,7 @@ public class CamaraActivity extends AppCompatActivity {
         cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
     }
 
-    // 👇 Método para alternar entre cámaras
+    // Método para alternar entre cámaras
     private void cambiarCamara() {
         if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
             cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA;

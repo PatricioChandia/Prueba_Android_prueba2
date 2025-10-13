@@ -59,6 +59,23 @@
                     android:text="Abrir sitio web"/>
 
                 <Button
+                    android:id="@+id/btnLlamar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Llamar"
+                    android:layout_marginTop="12dp" />
+
+                <EditText
+                    android:id="@+id/txtNumeroTelefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingrese número telefónico"
+                    android:inputType="phone"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:visibility="gone" />   <!-- oculto inicialmente -->
+
+                <Button
                     android:id="@+id/btnEnviarCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,6 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="Activar Cámara"/>
+
 
             </LinearLayout>
         </LinearLayout>
