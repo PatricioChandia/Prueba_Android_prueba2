@@ -75,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
         Button btnCamara = findViewById(R.id.btnCamara);
         Button btnLlamar = findViewById(R.id.btnLlamar);
         EditText txtNumeroTelefono = findViewById(R.id.txtNumeroTelefono);
+        Button btnSMS = findViewById(R.id.btnSMS);
 
         //Recibir datos del login
         emailUsuario = getIntent().getStringExtra("email_usuario");
@@ -156,7 +157,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
+        //Evento Para Llamar
         btnLlamar.setOnClickListener(v -> {
             // Si el cuadro está oculto, lo mostramos
             if (txtNumeroTelefono.getVisibility() == View.GONE) {
@@ -184,6 +185,19 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        //Evento enviar SMS
+        btnSMS.setOnClickListener(v -> {
+            // Creamos el Intent sin número predefinido
+            Uri uri = Uri.parse("smsto:"); // <- vacío para permitir elegir el contacto
+            Intent intentSMS = new Intent(Intent.ACTION_SENDTO, uri);
+            intentSMS.putExtra("sms_body", "Hola! Este es un mensaje desde mi app 🫠👌.");
+
+            try {
+                startActivity(intentSMS);
+            } catch (Exception e) {
+                Toast.makeText(this, "No se pudo abrir la app de SMS", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void alternarluz() {

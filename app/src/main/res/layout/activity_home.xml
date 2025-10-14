@@ -76,6 +76,14 @@
                     android:visibility="gone" />   <!-- oculto inicialmente -->
 
                 <Button
+                    android:id="@+id/btnSMS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:text="Enviar SMS" />
+
+                <Button
                     android:id="@+id/btnEnviarCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
