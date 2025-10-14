@@ -10,7 +10,8 @@ import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-
+import android.database.Cursor;
+import android.provider.ContactsContract;
 
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -57,6 +58,28 @@ public class HomeActivity extends AppCompatActivity {
             });
 
 
+    private final ActivityResultLauncher<Intent> seleccionarContactoLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri contactUri = result.getData().getData();
+                    if (contactUri != null) {
+                        obtenerDatosContacto(contactUri);
+                    }
+                }
+            });
+
+    private final ActivityResultLauncher<String> permisoContactosLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+                if (granted) {
+                    abrirSelectorContactos();
+                } else {
+                    Toast.makeText(this, "Permiso para leer contactos denegado", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +88,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         //Referencias
-
         tvBienvenida =findViewById(R.id.tvBienvenida);
         Button btnIrPerfil = findViewById(R.id.btnIrPerfil);
         Button btnAbrirWeb = findViewById(R.id.btnAbrirWeb);
@@ -76,6 +98,7 @@ public class HomeActivity extends AppCompatActivity {
         Button btnLlamar = findViewById(R.id.btnLlamar);
         EditText txtNumeroTelefono = findViewById(R.id.txtNumeroTelefono);
         Button btnSMS = findViewById(R.id.btnSMS);
+        Button btnSeleccionarContacto = findViewById(R.id.btnSeleccionarContacto);
 
         //Recibir datos del login
         emailUsuario = getIntent().getStringExtra("email_usuario");
@@ -198,6 +221,18 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "No se pudo abrir la app de SMS", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //Evento para Abrir Contactos
+        btnSeleccionarContacto.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                    == PackageManager.PERMISSION_GRANTED) {
+                abrirSelectorContactos();
+            } else {
+                permisoContactosLauncher.launch(Manifest.permission.READ_CONTACTS);
+            }
+        });
+
+
     }
 
     private void alternarluz() {
@@ -209,6 +244,58 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(this, "Error del controlador de linterna", Toast.LENGTH_SHORT).show();
         }
     }
+
+    //Metodo para abrir contactos
+    private void abrirSelectorContactos() {
+        Intent intentSeleccionar = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        seleccionarContactoLauncher.launch(intentSeleccionar);
+    }
+
+
+    //Metodo para obtener nombre o numero del contacto
+    private void obtenerDatosContacto(Uri contactUri) {
+        try {
+            String nombre = null;
+            String numero = null;
+
+            Cursor cursor = getContentResolver().query(contactUri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                String contactId = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+                nombre = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
+
+                int tieneTelefono = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                if (tieneTelefono > 0) {
+                    Cursor telefonosCursor = getContentResolver().query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            new String[]{contactId},
+                            null
+                    );
+                    if (telefonosCursor != null && telefonosCursor.moveToFirst()) {
+                        numero = telefonosCursor.getString(
+                                telefonosCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                        );
+                        telefonosCursor.close();
+                    }
+                }
+                cursor.close();
+            }
+            if (nombre != null || numero != null) {
+                Toast.makeText(this,
+                        "Contacto: " + (nombre != null ? nombre : "Sin nombre") +
+                                (numero != null ? "\nNúmero: " + numero : ""),
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "No se pudo obtener información del contacto", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al acceder a los datos del contacto", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     @Override
     protected void onPause(){
