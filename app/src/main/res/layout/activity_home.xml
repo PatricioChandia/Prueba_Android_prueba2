@@ -48,7 +48,7 @@
                     android:id="@+id/btnIrPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:text="Ir a Perfil (resultado)"/>
 
                 <Button
@@ -79,16 +79,14 @@
                     android:id="@+id/btnSMS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:padding="8dp"
+                    android:layout_marginTop="12dp"
                     android:text="Enviar SMS" />
 
                 <Button
                     android:id="@+id/btnSeleccionarContacto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:padding="8dp"
+                    android:layout_marginTop="12dp"
                     android:text="Seleccionar Contacto" />
 
                 <Button
@@ -106,6 +104,13 @@
                     android:text="Compartir texto"/>
 
                 <Button
+                    android:id="@+id/btnUbicacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Abrir Ubicación"/>
+
+                <Button
                     android:id="@+id/btnLinterna"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,7 +123,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="Activar Cámara"/>
-
 
             </LinearLayout>
         </LinearLayout>

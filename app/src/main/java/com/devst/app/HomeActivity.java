@@ -1,6 +1,5 @@
 package com.devst.app;
 
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,24 +11,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.database.Cursor;
 import android.provider.ContactsContract;
-
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
-
-
 import androidx.activity.EdgeToEdge;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PackageManagerCompat;
+
+
 
 public class HomeActivity extends AppCompatActivity {
-
 //vatiables
     private String emailUsuario;
     private TextView tvBienvenida;
@@ -77,6 +71,8 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +91,7 @@ public class HomeActivity extends AppCompatActivity {
         EditText txtNumeroTelefono = findViewById(R.id.txtNumeroTelefono);
         Button btnSMS = findViewById(R.id.btnSMS);
         Button btnSeleccionarContacto = findViewById(R.id.btnSeleccionarContacto);
+        Button btnUbicacion = findViewById(R.id.btnUbicacion);
 
         //Recibir datos del login
         emailUsuario = getIntent().getStringExtra("email_usuario");
@@ -228,7 +225,28 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        //Evento para Abrir Ubicación
+        btnUbicacion.setOnClickListener(v -> {
+            // Definimos la ubicación
+            String direccion = "Vergara 165, Santiago";
+            String nombreLugar = "Santo Tomás Santiago Centro";
 
+            // Construimos el URI
+            String geoUri = "geo:0,0?q=" + Uri.encode(direccion + " (" + nombreLugar + ")");
+
+            // Creamos el intent
+            Intent intentMaps = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+
+            // Intent explícito para Google Maps
+            intentMaps.setPackage("com.google.android.apps.maps");
+
+            try {
+                startActivity(intentMaps);
+            } catch (Exception e) {
+                // Si Google Maps no está instalada, mostramos un mensaje
+                Toast.makeText(this, "Google Maps no está instalada. Instálala o usa otra app de mapas.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void alternarluz() {
@@ -246,7 +264,6 @@ public class HomeActivity extends AppCompatActivity {
         Intent intentSeleccionar = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         seleccionarContactoLauncher.launch(intentSeleccionar);
     }
-
 
     //Metodo para obtener nombre o numero del contacto
     private void obtenerDatosContacto(Uri contactUri) {
@@ -286,7 +303,6 @@ public class HomeActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "El contacto no tiene número telefónico", Toast.LENGTH_SHORT).show();
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al acceder al contacto", Toast.LENGTH_SHORT).show();
