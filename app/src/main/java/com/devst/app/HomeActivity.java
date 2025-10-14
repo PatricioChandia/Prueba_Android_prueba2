@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
 
-
+    //Launcher para seleccionar contacto
     private final ActivityResultLauncher<Intent> seleccionarContactoLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
             });
-
+    //Permiso para leer contactos
     private final ActivityResultLauncher<String> permisoContactosLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
                 if (granted) {
@@ -76,10 +76,6 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(this, "Permiso para leer contactos denegado", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,17 +277,19 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 cursor.close();
             }
-            if (nombre != null || numero != null) {
-                Toast.makeText(this,
-                        "Contacto: " + (nombre != null ? nombre : "Sin nombre") +
-                                (numero != null ? "\nNúmero: " + numero : ""),
-                        Toast.LENGTH_LONG).show();
+
+            if (numero != null) {
+                EditText txtNumeroTelefono = findViewById(R.id.txtNumeroTelefono);
+                txtNumeroTelefono.setVisibility(View.VISIBLE);
+                txtNumeroTelefono.setText(numero);
+                Toast.makeText(this, "Contacto seleccionado: " + nombre, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "No se pudo obtener información del contacto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "El contacto no tiene número telefónico", Toast.LENGTH_SHORT).show();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error al acceder a los datos del contacto", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error al acceder al contacto", Toast.LENGTH_SHORT).show();
         }
     }
 
