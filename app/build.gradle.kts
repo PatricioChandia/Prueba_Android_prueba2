@@ -46,6 +46,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    //Intentando acceder por medio de la huella digital
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
     // CameraX
     implementation("androidx.camera:camera-core:1.3.0")

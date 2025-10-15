@@ -102,6 +102,17 @@
             android:paddingTop="14dp"
             android:paddingBottom="14dp"/>
 
+        <Button
+            android:id="@+id/btnHuella"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12"
+            android:background="@color/brand_primary"
+            android:text="Iniciar con huella digital"
+            android:textColor="@color/text_main"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"/>
+
         <TextView
             android:id="@+id/tvRecuperarpass"
             android:layout_width="wrap_content"
