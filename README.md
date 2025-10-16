@@ -56,7 +56,7 @@ Contiene accesos rápidos a funciones del sistema, implementadas con intents imp
 | `HomeActivity → PerfilActivity`             | Abre la vista de perfil del usuario.        | 1. Presiona el botón “Perfil”.<br>2. Se abre el perfil con datos editables.                 |
 
 
-🧠 Persistencia de datos
+💾 Persistencia de datos
 
   - Los datos del perfil (nombre, edad, correo e imagen) se guardan usando SharedPreferences.
   - Al cerrar y reabrir la app, los datos permanecen.
@@ -64,6 +64,22 @@ Contiene accesos rápidos a funciones del sistema, implementadas con intents imp
 
 
 📸 Capturas
+
+Diagrama de Intents
+
+Este diagrama representa el flujo de navegación de tu app, mostrando los Intents explícitos (dentro de la app) y los implícitos (que llaman a apps del sistema).
+
+<img width="1668" height="650" alt="Intents" src="https://github.com/user-attachments/assets/b9edaede-aeec-4cf1-be6f-7d7c082bf06d" />
+
+
+
+Diagrama de Flujo de Interacción del Usuario
+
+
+Este diagrama muestra cómo el usuario navega por la app, los eventos clave (botones, intents, pantallas) y las respuestas del sistema o del dispositivo.
+
+<img width="1098" height="576" alt="Flujo" src="https://github.com/user-attachments/assets/45ef2025-51f5-44ff-9516-c94640d06a93" />
+
 
 
 
@@ -78,7 +94,7 @@ Contiene accesos rápidos a funciones del sistema, implementadas con intents imp
 
 👨‍💻 Autor
 
-  - Desarrollado por: Patricio Chandia Pino
+  - Desarrollado por: Patricio Chandia Pino (🦆🍉)
   - 📧 pchandia1@alumnos.santotomas.cl
   - 📅 Versión del proyecto: Octubre 2025
 
