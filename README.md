@@ -65,6 +65,15 @@ Contiene accesos rápidos a funciones del sistema, implementadas con intents imp
 
 📸 Capturas
 
+![1](https://github.com/user-attachments/assets/8975bfd0-199c-447d-9103-ff794763326a)
+
+![2](https://github.com/user-attachments/assets/9a2b7d78-4c04-42fe-aa4e-55a2c6c48c95)
+
+![3](https://github.com/user-attachments/assets/f5ceb58c-06a6-4f0a-aea3-93d08afa8641)
+
+![4](https://github.com/user-attachments/assets/21506bc4-ed5f-4cad-9a80-2dd700693d03)
+
+
 Diagrama de Intents
 
 Este diagrama representa el flujo de navegación de tu app, mostrando los Intents explícitos (dentro de la app) y los implícitos (que llaman a apps del sistema).
@@ -90,6 +99,11 @@ Este diagrama muestra cómo el usuario navega por la app, los eventos clave (bot
   - Agregar modo oscuro 🌙.
   - Validar campos antes de guardar el perfil.
   - Conexión a servicios web externos.
+
+
+📱 Descargar aplicación
+
+👉 [Descargar APK desde la última versión] (https://github.com/PatricioChandia/Prueba_Android_prueba2/releases/tag/v1.0.0)
 
 
 👨‍💻 Autor
